@@ -165,17 +165,16 @@
             height: 300px;
             background: linear-gradient(135deg, var(--light-blue), var(--secondary));
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
             color: var(--white);
             font-size: 1.3rem;
             font-weight: 700;
             cursor: pointer;
             overflow: hidden;
             position: relative;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            will-change: transform;
         }
 
         .gallery-item::before {
@@ -194,20 +193,23 @@
         .gallery-item::after {
             content: '🔍';
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
             font-size: 3rem;
             opacity: 0;
-            transform: scale(0);
             transition: all 0.3s ease;
+            z-index: 2;
         }
 
         .gallery-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(0, 119, 190, 0.4);
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(0, 119, 190, 0.25);
         }
 
         .gallery-item:hover::after {
             opacity: 1;
-            transform: scale(1);
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .gallery-item img {
@@ -215,6 +217,11 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            aspect-ratio: 16 / 9;
         }
 
         /* Modal */
@@ -240,13 +247,17 @@
 
         .modal-content {
             max-width: 90%;
-            max-height: 90%;
+            max-height: 90vh;
             background: var(--white);
-            padding: 3rem;
+            padding: 2rem;
             border-radius: 20px;
             text-align: center;
             position: relative;
             animation: zoomIn 0.3s ease;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes zoomIn {
@@ -257,12 +268,35 @@
         .modal-content h2 {
             font-size: 2.5rem;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
         }
+
+        .modal-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-image.loading {
+            opacity: 0;
+        }
+
+        .modal-image.loaded {
+            opacity: 1;
+        }
+
 
         .modal-content p {
             font-size: 1.2rem;
             color: #666;
+            display: none;
         }
 
         .close-modal {
@@ -385,14 +419,17 @@
             .modal-content {
                 max-width: 95%;
                 padding: 2rem;
+                max-height: 85vh;
             }
 
             .modal-content h2 {
                 font-size: 2rem;
+                margin-bottom: 1rem;
             }
 
-            .modal-content p {
-                font-size: 1rem;
+            .modal-image {
+                max-width: 100%;
+                max-height: 50vh;
             }
 
             .back-to-top {
@@ -440,10 +477,16 @@
             .modal-content {
                 padding: 1.5rem;
                 max-width: 98%;
+                max-height: 90vh;
             }
 
             .modal-content h2 {
                 font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .modal-image {
+                max-height: 45vh;
             }
 
             .close-modal {
@@ -487,19 +530,19 @@
     <div class="content">
         <div class="gallery-grid">
             <div class="gallery-item" data-title="قلعة قايتباي">
-                <img src="images/gallery/imgi_127_Qaitbay_Castle_in_Alexandria.png" alt="قلعه قايتباي" loading="lazy">
+                <img src="images/gallery/resized_image-1.jpg" alt="قلعه قايتباي" loading="lazy">
             </div>
             <div class="gallery-item" data-title="مكتبة الإسكندرية">
                 <img src="images/gallery/imgi_177_16192063550.jpg" alt="مكتبه الاسكندريه" loading="lazy">
             </div>
             <div class="gallery-item" data-title="قصر المنتزه">
-                <img src="images/gallery/imgi_115_قصر_المنتزة_بالإسكندرية (1).png" alt="قصر المنتزه" loading="lazy">
+                <img src="images/gallery/resized_image.jpg" alt="قصر المنتزه" loading="lazy">
             </div>
             <div class="gallery-item" data-title="مسجد المرسي أبو العباس">
-                <img src="images/gallery/imgi_162_mursi-mosque-alexandria.png" alt="مسجد المرسي ابو العباس" loading="lazy">
+                <img src="images/gallery/resized_image-2.jpg" alt="مسجد المرسي ابو العباس" loading="lazy">
             </div>
             <div class="gallery-item" data-title="كورنيش الإسكندرية">
-                <img src="images/gallery/imgi_122_Corniche_of_Alexandria.png" alt="كورنيش الاسكندريه" loading="lazy">
+                <img src="images/gallery/resized_image-5.jpg" alt="كورنيش الاسكندريه" loading="lazy">
             </div>
             <div class="gallery-item" data-title="عامود السواري">
                 <img src="images/gallery/imgi_111_عمود_السواري_بالاسكندرية.png" alt="عامود السواري" loading="lazy">
@@ -510,7 +553,7 @@
 
             </div>
             <div class="gallery-item" data-title="المسرح الروماني">
-                <img src="images/gallery/imgi_127_المسرح_الروماني_بالإسكندرية.png" alt="المسرح الروماني" loading="lazy">
+                <img src="images/gallery/resized_image-3.jpg" alt="المسرح الروماني" loading="lazy">
             </div>
             <div class="gallery-item" data-title="متحف المجوهرات الملكية">
                 <img src="images/gallery/imgi_145_Zizinya04.png" alt="متحف المجوهرات الملكيه" loading="lazy">
@@ -533,7 +576,7 @@
         <div class="modal-content">
             <button class="close-modal" id="closeModal">×</button>
             <h2 id="modalTitle"></h2>
-            <p>سيتم عرض الصورة هنا بعد إضافة الصور الفعلية</p>
+            <img id="modalImage" class="modal-image" src="" alt="">
         </div>
     </div>
 
@@ -561,14 +604,45 @@
         // Gallery Modal
         const modal = document.getElementById('modal');
         const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
         const closeModal = document.getElementById('closeModal');
         const galleryItems = document.querySelectorAll('.gallery-item');
 
         galleryItems.forEach(item => {
             item.addEventListener('click', () => {
                 const title = item.getAttribute('data-title');
+                const img = item.querySelector('img');
+                const imgSrc = img ? img.getAttribute('src') : '';
+                const imgAlt = img ? img.getAttribute('alt') : title;
+                
+                // Set title
                 modalTitle.textContent = title;
+                
+                // Show loading state
+                modalImage.classList.add('loading');
+                modalImage.classList.remove('loaded');
+                
+                // Set image source
+                modalImage.src = imgSrc;
+                modalImage.alt = imgAlt;
+                
+                // Show modal
                 modal.classList.add('active');
+                
+                // Handle image load
+                if (modalImage.complete) {
+                    modalImage.classList.remove('loading');
+                    modalImage.classList.add('loaded');
+                } else {
+                    modalImage.onload = function() {
+                        modalImage.classList.remove('loading');
+                        modalImage.classList.add('loaded');
+                    };
+                    modalImage.onerror = function() {
+                        modalImage.classList.remove('loading');
+                        modalImage.classList.add('loaded');
+                    };
+                }
             });
         });
 

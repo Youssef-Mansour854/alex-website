@@ -166,6 +166,13 @@
             margin-bottom: 3rem;
         }
 
+        @media (max-width: 768px) {
+            .quick-nav {
+                position: sticky;
+                top: 70px;
+            }
+        }
+
         .quick-nav-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -222,14 +229,16 @@
             background: var(--white);
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             margin-bottom: 4rem;
-            transition: all 0.4s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            scroll-margin-top: 200px;
+            will-change: transform;
         }
 
         .place-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 60px rgba(16, 185, 129, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
         }
 
         .place-header {
@@ -252,12 +261,7 @@
         .landmark-image {
             width: 100%;
             height: 500px;
-            background: linear-gradient(135deg, #34d399, #10b981);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.5rem;
+            display: block;
             position: relative;
             overflow: hidden;
         }
@@ -269,25 +273,24 @@
             object-fit: cover;
             object-position: center;
             display: block;
-            transition: transform 0.5s ease, filter 0.3s ease;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            background: linear-gradient(135deg, #34d399, #10b981);
-        }
-
-        .place-image img[loading="lazy"] {
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
+            transition: transform 0.3s ease;
+            opacity: 1;
+            aspect-ratio: 16 / 9;
         }
 
         @keyframes fadeIn {
+            from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        .place-image img[loading="lazy"],
+        .landmark-image img[loading="lazy"] {
+            opacity: 1;
         }
 
         .place-card:hover .place-image img,
         .place-card:hover .landmark-image img {
-            transform: scale(1.08);
-            filter: brightness(1.1);
+            transform: scale(1.05);
         }
 
         .place-image::before {
@@ -412,6 +415,19 @@
         .back-to-top.show {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Scroll margin for smooth navigation - responsive */
+        @media (max-width: 768px) {
+            .place-card {
+                scroll-margin-top: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .place-card {
+                scroll-margin-top: 180px;
+            }
         }
 
         /* Responsive Design */
@@ -917,12 +933,18 @@
                 const targetElement = document.getElementById(targetId);
                 
                 if (targetElement) {
-                    const headerOffset = 180;
+                    // Calculate dynamic offset based on screen size
+                    const nav = document.querySelector('nav');
+                    const quickNav = document.querySelector('.quick-nav');
+                    const navHeight = nav ? nav.offsetHeight : 80;
+                    const quickNavHeight = quickNav ? quickNav.offsetHeight : 0;
+                    const headerOffset = navHeight + quickNavHeight + 20; // Add 20px padding
+                    
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
                     window.scrollTo({
-                        top: offsetPosition,
+                        top: Math.max(0, offsetPosition),
                         behavior: 'smooth'
                     });
 
@@ -933,13 +955,21 @@
         });
 
         // Highlight active section on scroll
-        const observerOptions = {
+        function getObserverOptions() {
+            const nav = document.querySelector('nav');
+            const quickNav = document.querySelector('.quick-nav');
+            const navHeight = nav ? nav.offsetHeight : 80;
+            const quickNavHeight = quickNav ? quickNav.offsetHeight : 0;
+            const offset = navHeight + quickNavHeight + 20;
+            
+            return {
             root: null,
-            rootMargin: '-180px 0px -50% 0px',
+                rootMargin: `-${offset}px 0px -50% 0px`,
             threshold: 0
         };
+        }
 
-        const observer = new IntersectionObserver((entries) => {
+        let observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.id;
@@ -951,7 +981,32 @@
                     });
                 }
             });
-        }, observerOptions);
+        }, getObserverOptions());
+        
+        // Update observer on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                observer.disconnect();
+                observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.id;
+                            document.querySelectorAll('.quick-nav-link').forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, getObserverOptions());
+        document.querySelectorAll('.place-card').forEach(card => {
+            observer.observe(card);
+        });
+            }, 250);
+        });
 
         document.querySelectorAll('.place-card').forEach(card => {
             observer.observe(card);

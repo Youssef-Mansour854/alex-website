@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المعالم التاريخية - الإسكندرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0077be;
+            --secondary: #00a8e8;
+            --light-blue: #7dd3fc;
+            --white: #ffffff;
+            --light: #f0f9ff;
+            --dark: #1e3a5f;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 900px) {
+            nav .container {
+                flex-wrap: wrap;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            nav ul {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                flex-direction: column;
+                width: 220px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                border-radius: 0 0 12px 12px;
+                z-index: 1001;
+            }
+            nav ul.open {
+                max-height: 500px;
+                padding-bottom: 1rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .page-header {
+            margin-top: 80px;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+        }
+
+        /* Quick Navigation Bar */
+        .quick-nav {
+            position: sticky;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            margin-bottom: 3rem;
+        }
+
+        .quick-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-nav-link {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.2);
+            white-space: nowrap;
+        }
+
+        .quick-nav-link:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
+        }
+
+        .quick-nav-link.active {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .landmark-card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            transition: all 0.4s ease;
+        }
+
+        .landmark-card:hover {
+            box-shadow: 0 25px 60px rgba(0, 119, 190, 0.3);
+        }
+
+        .landmark-card.active {
+            transform: translateY(-5px);
+        }
+
+        .landmark-header {
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary));
+            padding: 3rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .landmark-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .landmark-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .landmark-content {
+            display: block;
+            
+        }
+
+        .landmark-image {
+            width: 100%;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* font-size: 1.3rem;
+            color: var(--white); */
+            position: relative;
+            overflow: hidden;
+            transition: height 0.5s ease;
+        }
+
+        .landmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .landmark-card:hover .landmark-image img {
+            transform: scale(1.1);
+        }
+
+        .landmark-body {
+            padding: 3rem;
+        }
+
+        .landmark-body p {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark);
+            border-radius: 25px;
+            font-weight: 700;
+            margin: 0.5rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                padding: 4rem 1.5rem;
+            }
+            
+            .landmark-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-header {
+                padding: 4rem 1.5rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+
+            .quick-nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .quick-nav-links {
+                gap: 0.8rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .landmark-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .landmark-image {
+                height: 350px;
+            }
+
+            .landmark-body {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-header {
+                margin-top: 70px;
+                padding: 3rem 1rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            .quick-nav {
+                top: 70px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .quick-nav-title {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .quick-nav-links {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .quick-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 2.5rem 1rem;
+            }
+
+            .landmark-header {
+                padding: 2rem;
+            }
+
+            .landmark-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .landmark-image {
+                height: 300px;
+            }
+
+            .landmark-body {
+                padding: 1.5rem;
+            }
+
+            .landmark-body p {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .container {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .page-header {
+                padding: 2.5rem 0.8rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .quick-nav {
+                padding: 0.8rem;
+            }
+
+            .quick-nav-title {
+                font-size: 0.95rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: 2rem 0.8rem;
+            }
+
+            .landmark-header {
+                padding: 1.5rem;
+            }
+
+            .landmark-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .landmark-image {
+                height: 250px;
+            }
+
+            .landmark-body {
+                padding: 1.2rem;
+            }
+
+            .landmark-body p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .info-grid {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .info-item .icon {
+                font-size: 2rem;
+            }
+
+            .info-item h4 {
+                font-size: 1.1rem;
+            }
+
+            .info-item p {
+                font-size: 0.95rem;
+            }
+
+            .badge {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+                margin: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">🌊 الإسكندرية</div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="navLinks">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">نبذة</a></li>
+                <li><a href="historical.html" class="active">تاريخية</a></li>
+                <li><a href="religious.html">دينية</a></li>
+                <li><a href="cultural.html">ثقافية</a></li>
+                <li><a href="entertainment.html">ترفيه</a></li>
+                <li><a href="food.html">مطاعم</a></li>
+                <li><a href="gallery.html">معرض</a></li>
+                <li><a href="contact.html">موقعنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>🏰 المعالم التاريخية والأثرية</h1>
+        <p>اكتشف أهم المعالم التاريخية في مدينة الإسكندرية</p>
+    </div>
+
+    <!-- Quick Navigation Bar -->
+    <div class="quick-nav">
+        <div class="quick-nav-container">
+            <div class="quick-nav-title">📍 التنقل السريع</div>
+            <div class="quick-nav-links">
+                <a href="#bahari" class="quick-nav-link">🏛️ منطقة بحري</a>
+                <a href="#qaitebay" class="quick-nav-link">🏰 قلعة قايتباي</a>
+                <a href="#pompey" class="quick-nav-link">🗿 عمود السواري</a>
+                <a href="#theater" class="quick-nav-link">🎭 المسرح الروماني</a>
+                <a href="#montazah" class="quick-nav-link">👑 قصر المنتزه</a>
+                <a href="#jewelry" class="quick-nav-link">💎 متحف المجوهرات</a>
+                <a href="#catacombs" class="quick-nav-link">⚱️ مقابر كوم الشقافة</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- منطقة بحري -->
+        <div class="landmark-card" id="bahari">
+            <div class="landmark-header">
+                <h2>🏛️ منطقة بحري - قلب الإسكندرية التاريخي</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/imgi_105_474453.jpg" alt="منطقة بحري - قلعة قايتباي" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                    <p>تُعد منطقة بحري من أقدم وأشهر أحياء الإسكندرية، وتقع في أقصى غرب المدينة عند نهاية الكورنيش. تُعرف بطابعها الشعبي والتاريخي، إذ كانت منذ القدم مركز الصيادين والتجارة البحرية، وما زالت تحتفظ بروح الإسكندرية القديمة.</p>
+                    <p>تضم بحري عددًا من المعالم التاريخية المهمة مثل قلعة قايتباي ومسجد المرسي أبو العباس ومنطقة الأنفوشي المشهورة بورش صناعة المراكب والمأكولات البحرية.</p>
+                    <p>تتميز شوارع بحري بالأزقة الضيقة والمنازل التراثية المطلة على البحر، وتُعد من أكثر المناطق التي تعكس هوية وثقافة الإسكندرية الأصيلة.</p>
+                    <span class="badge">🌊 قلب الإسكندرية التاريخي</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- قلعة قايتباي -->
+        <div class="landmark-card" id="qaitebay">
+            <div class="landmark-header">
+                <h2>🏰 قلعة قايتباي</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/WhatsApp Image 2025-11-08 at 10.38.41 PM (1).jpeg" alt="قلعة قايتباي" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>تُعد قلعة قايتباي من أبرز الحصون الدفاعية على ساحل البحر المتوسط، أنشأها السلطان الأشرف قايتباي بين عامي 1477 و1479م على أنقاض فنار الإسكندرية القديم لحماية المدينة.</p>
+                <p>بُنيت من الحجر الجيري على مساحة 1750م²، وتضم أسوارًا وأبراجًا دفاعية وثكنات للجنود ومخازن للأسلحة، إضافة إلى صهريج للمياه. تتألف من ثلاث طوابق بأبراج نصف دائرية وشرفات بارزة.</p>
+                <p>شهدت القلعة أعمال ترميم وتطوير متواصلة كان آخرها عام 2003م.</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>مصري: ٦٠ جنيه<br>طالب: ٣٠ جنيه<br>أجنبي: ١٥٠ جنيه</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>من ٩ صباحًا حتى ٨ مساءً يوميًا</p>
+                    </div>
+                </div>
+                <span class="badge">⭐ معلم سياحي مميز</span>
+            </div>
+        </div>
+
+        <!-- عمود السواري -->
+        <div class="landmark-card" id="pompey">
+            <div class="landmark-header">
+                <h2>🗿 عمود السواري</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/imgi_201_XTeIuSBmxBcQbbP1iyx6MpaYBDdDaFTvxeRRTUyI.png" alt="عمود السواري" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>يقع عامود السواري فوق تل باب سدرة بين منطقة "العمود" وهضبة كوم الشقافة، وهو من أهم آثار الإسكندرية. شُيّد من الجرانيت الأحمر ويبلغ ارتفاعه الإجمالي نحو 26.85 مترًا.</p>
+                <p>سُمي خطأ "عمود بومبي" في العصور الصليبية، بينما أطلق عليه العرب اسم "عامود الصواري" لعلوّه الشديد الذي يشبه صواري السفن. يقع في بهو معبد السرابيوم، ويتميز بموقعه المرتفع الذي يجعله بارزًا ويمكن رؤيته من أماكن بعيدة.</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر الدخول</h4>
+                        <p>مصريون: 20 جنيهًا<br>طلاب: 5 جنيهات<br>أجانب: 80 جنيهًا</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>من 9 صباحًا إلى 5 مساءً</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📏</div>
+                        <h4>الارتفاع</h4>
+                        <p>26.85 متر</p>
+                    </div>
+                </div>
+                <span class="badge">🏛️ أثر روماني شهير</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- المسرح الروماني -->
+        <div class="landmark-card" id="theater">
+            <div class="landmark-header">
+                <h2>🎭 المسرح الروماني بكوم الدكة</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/WhatsApp Image 2025-11-08 at 10.38.40 PM (1).jpeg" alt="المسرح الروماني" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>المسرح الروماني بكوم الدكة هو الأثر الروماني الوحيد في مصر، بُني في أوائل القرن الرابع الميلادي واكتشفته بعثة بولندية عام 1960 أثناء البحث عن مقبرة الإسكندر الأكبر.</p>
+                <p>يتكون من 13 صفًا من المدرجات الرخامية على شكل حرف U تتسع لنحو 600 شخص، واستُخدم في العصور القديمة كقاعة للموسيقى ثم كقاعة اجتماعات في العصر البيزنطي.</p>
+                <p>يضم الموقع بقايا أعمدة وتماثيل ولوحات أثرية لملوك مصريين مثل سيتي الأول ورمسيس الثاني.</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>بالغين: ٢٠٠ جنيه<br>طلاب: ١٠٠ جنيه</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>من ٩ صباحًا حتى ٥ مساءً</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">👥</div>
+                        <h4>السعة</h4>
+                        <p>600 شخص</p>
+                    </div>
+                </div>
+                <span class="badge">🎪 الأثر الروماني الوحيد في مصر</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- قصر المنتزه -->
+        <div class="landmark-card" id="montazah">
+            <div class="landmark-header">
+                <h2>👑 قصر المنتزه</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/imgi_146_Flickr_-_archer10_(Dennis)_-_Egypt-14A-148.png" alt="قصر المنتزه" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>يقع قصر المنتزه داخل حدائق المنتزه، ويتكون من قصرين: قصر السلاملك الذي أُنشئ عام 1892م، وقصر الحرملك الذي أُضيف عام 1927م.</p>
+                <p>قصر السلاملك بناه الخديوي عباس حلمي الثاني، بينما بنى الملك فؤاد الأول قصر الحرملك ليكون قصرًا للعائلة المالكة خلال فصل الصيف.</p>
+                <p>يجمع القصر بين الطرازين الأوروبي والعثماني، والأسقف مزخرفة بالنقوش الذهبية والرسومات الكلاسيكية. الحدائق المحيطة تُعد من أجمل حدائق مصر وتوجد داخلها شواطئ خاصة للعائلة الملكية قديمًا.</p>
+                <p>بعد ثورة 23 يوليو 1952، انتقلت ملكية القصر للدولة المصرية. قصر السلاملك تحول إلى فندق فاخر، وقصر الحرملك أصبح مقرًا رئاسيًا. حاليًا المكان من أشهر المزارات السياحية في الإسكندرية.</p>
+                <span class="badge">👑 قصر ملكي تاريخي</span>
+                <span class="badge">🌳 حدائق خلابة</span>
+            </div>
+        </div>
+
+        <!-- متحف المجوهرات الملكية -->
+        <div class="landmark-card" id="jewelry">
+            <div class="landmark-header">
+                <h2>💎 متحف المجوهرات الملكية</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/imgi_454_hq720.png" alt="متحف المجوهرات الملكية" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>يقع متحف المجوهرات الملكية في حي زيزينيا شرق الإسكندرية داخل قصر الأميرة فاطمة الزهراء حفيدة محمد علي باشا.</p>
+                <p>بُني القصر عام 1919م على الطراز الأوروبي، ويتكون من طابقين وأكثر من 24 قاعة عرض، يُعد من أجمل القصور في المدينة بزخارفه وأسقفه المزينة بالذهب والزجاج الملوّن والسلم الرخامي الفاخر.</p>
+                <p>يضم المتحف أكثر من 11 ألف قطعة من مجوهرات وتحف الأسرة الملكية، منها تيجان، خواتم، ساعات، وتماثيل ذهبية نادرة تعود لملوك وملكات أسرة محمد علي.</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>مصريون: 20 جنيه<br>أجانب: 220 جنيه</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>يوميًا من 9 صباحًا إلى 5 مساءً</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">💍</div>
+                        <h4>عدد القطع</h4>
+                        <p>أكثر من 11 ألف قطعة</p>
+                    </div>
+                </div>
+                <span class="badge">💎 كنوز ملكية نادرة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- مقابر كوم الشقافة -->
+        <div class="landmark-card" id="catacombs">
+            <div class="landmark-header">
+                <h2>⚱️ مقابر كوم الشقافة</h2>
+            </div>
+            <div class="landmark-content">
+                <div class="landmark-image">
+                    <img src="images/historic/WhatsApp Image 2025-11-08 at 10.38.43 PM (5).jpeg" alt="مقابر كوم الشقافة" loading="lazy">
+                </div>
+                <div class="landmark-body">
+                <p>تُعد مقابر كوم الشقافة من أهم وأجمل المعالم الأثرية في الإسكندرية، وتقع في حي كرموز جنوب غرب المدينة.</p>
+                <p>ترجع المقابر إلى القرن الأول الميلادي، وتُعد من عجائب الهندسة الجنائزية في العصور القديمة، إذ تجمع بين الطرازين المصري واليوناني الروماني في تصميمها وزخارفها.</p>
+                <p>تتكوّن المقابر من ثلاثة طوابق تحت الأرض تحتوي على قاعات للدفن وتماثيل ورسومات فرعونية ورومانية مميزة. تم اكتشافها عام 1900م بالصدفة، وتُعتبر اليوم من أبرز المزارات الأثرية في الإسكندرية.</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>أجانب: 200 جنيه<br>مصريون: 30 جنيه<br>طلاب: 10 جنيه</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>من 9:00 صباحًا إلى 4:00 مساءً يوميًا</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">👶</div>
+                        <h4>ملاحظة</h4>
+                        <p>الأطفال تحت 6 سنوات مجانًا</p>
+                    </div>
+                </div>
+                <span class="badge">🏛️ عجيبة أثرية</span>
+                <span class="badge">🎨 فن مصري-روماني</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌊 مدينة الإسكندرية - عروس البحر الأبيض المتوسط</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scroll for quick nav links
+        document.querySelectorAll('.quick-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 180; // Account for fixed nav + quick nav
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active link
+                    document.querySelectorAll('.quick-nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '-180px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.quick-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.landmark-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Responsive Navbar Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('open');
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !expanded);
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navLinks.classList.remove('open');
+                        navToggle.classList.remove('open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

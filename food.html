@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المطاعم المشهورة - الإسكندرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0077be;
+            --secondary: #00a8e8;
+            --light-blue: #7dd3fc;
+            --white: #ffffff;
+            --light: #f0f9ff;
+            --dark: #1e3a5f;
+            --gold: #fbbf24;
+            --orange: #f97316;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 900px) {
+            nav .container {
+                flex-wrap: wrap;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            nav ul {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                flex-direction: column;
+                width: 220px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                border-radius: 0 0 12px 12px;
+                z-index: 1001;
+            }
+            nav ul.open {
+                max-height: 500px;
+                padding-bottom: 1rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .page-header {
+            margin-top: 80px;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+        }
+
+        /* Quick Navigation Bar */
+        .quick-nav {
+            position: sticky;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            margin-bottom: 3rem;
+        }
+
+        .quick-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-nav-link {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--orange), #ea580c);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+            white-space: nowrap;
+        }
+
+        .quick-nav-link:hover {
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .quick-nav-link.active {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .food-card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+            transition: all 0.4s ease;
+        }
+
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(249, 115, 22, 0.3);
+        }
+
+        .food-header {
+            background: linear-gradient(135deg, #fb923c, #f97316);
+            padding: 3rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .food-header .icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .food-header h2 {
+            font-size: 3rem;
+        }
+
+        .food-image,
+        .landmark-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .food-image img,
+        .landmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease, filter 0.3s ease;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+        }
+
+        .food-image img[loading="lazy"] {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .food-card:hover .food-image img,
+        .food-card:hover .landmark-image img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        .food-image::before {
+            content: '🍽️';
+            position: absolute;
+            font-size: 12rem;
+            opacity: 0.1;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .food-content {
+            padding: 3rem;
+        }
+
+        .food-content p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fed7aa, #fdba74);
+            padding: 2rem;
+            border-radius: 15px;
+            border-right: 5px solid var(--orange);
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box p, .highlight-box ul {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .highlight-box ul {
+            list-style-position: inside;
+        }
+
+        .highlight-box ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.3rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--orange), #ea580c);
+            color: var(--white);
+            border-radius: 25px;
+            font-weight: 700;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 1.5rem;
+            font-size: 2rem;
+            justify-content: center;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                padding: 4rem 1.5rem;
+            }
+            
+            .food-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-header {
+                padding: 4rem 1.5rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+
+            .quick-nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .quick-nav-links {
+                gap: 0.8rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .food-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .food-image {
+                height: 350px;
+            }
+
+            .food-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-header {
+                margin-top: 70px;
+                padding: 3rem 1rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            .quick-nav {
+                top: 70px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .quick-nav-title {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .quick-nav-links {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .quick-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 2.5rem 1rem;
+            }
+
+            .food-header {
+                padding: 2rem;
+            }
+
+            .food-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .food-header .icon {
+                font-size: 4rem;
+            }
+
+            .food-image {
+                height: 300px;
+            }
+
+            .food-content {
+                padding: 1.5rem;
+            }
+
+            .food-content p {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .container {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .page-header {
+                padding: 2.5rem 0.8rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .quick-nav {
+                padding: 0.8rem;
+            }
+
+            .quick-nav-title {
+                font-size: 0.95rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: 2rem 0.8rem;
+            }
+
+            .food-header {
+                padding: 1.5rem;
+            }
+
+            .food-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .food-header .icon {
+                font-size: 3rem;
+            }
+
+            .food-image {
+                height: 250px;
+            }
+
+            .food-content {
+                padding: 1.2rem;
+            }
+
+            .food-content p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .highlight-box {
+                padding: 1.5rem;
+            }
+
+            .highlight-box h3 {
+                font-size: 1.3rem;
+            }
+
+            .highlight-box ul {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .badge {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+                margin: 0.3rem;
+            }
+
+            .rating {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">🌊 الإسكندرية</div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="navLinks">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">نبذة</a></li>
+                <li><a href="historical.html">تاريخية</a></li>
+                <li><a href="religious.html">دينية</a></li>
+                <li><a href="cultural.html">ثقافية</a></li>
+                <li><a href="entertainment.html">ترفيه</a></li>
+                <li><a href="food.html" class="active">مطاعم</a></li>
+                <li><a href="gallery.html">معرض</a></li>
+                <li><a href="contact.html">موقعنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>🍽️ المطاعم المشهورة</h1>
+        <p>تذوق أشهى المأكولات السكندرية الأصيلة</p>
+    </div>
+
+    <!-- Quick Navigation Bar -->
+    <div class="quick-nav">
+        <div class="quick-nav-container">
+            <div class="quick-nav-title">📍 التنقل السريع</div>
+            <div class="quick-nav-links">
+                <a href="#mohamedahmed" class="quick-nav-link">🥙 مطعم محمد أحمد</a>
+                <a href="#shaban" class="quick-nav-link">🐟 أسماك شعبان</a>
+                <a href="#fatir" class="quick-nav-link">🥞 فطير القلاع</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- مطعم محمد أحمد -->
+        <div class="food-card" id="mohamedahmed">
+            <div class="food-header">
+                <div class="icon">🥙</div>
+                <h2>مطعم محمد أحمد</h2>
+            </div>
+            <div class="food-image">
+                <img src="images/food/imgi_159_hcmp193852_3178951.png" 
+                     alt="مطعم محمد أحمد - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/food/mohamed-ahmed-restaurant.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="food-content">
+                <p>يُعد مطعم محمد أحمد واحدًا من أقدم وأشهر مطاعم الفول والطعمية في الإسكندرية، تأسس عام 1957 تقريبًا، ويقع في منطقة محطة الرمل، وهو من الرموز الشعبية للمطبخ الإسكندراني والمصري عمومًا.</p>
+
+                <div class="highlight-box">
+                    <h3>⭐ الشهرة والمكانة</h3>
+                    <ul>
+                        <li>يُعتبر من أكثر المطاعم جذبًا للسكان المحليين والسياح</li>
+                        <li>يُعد جزءًا من التجربة الثقافية للمدينة</li>
+                        <li>زاره العديد من الشخصيات المشهورة مثل الملك الإسباني خوان كارلوس والشيخ زايد بن سلطان آل نهيان وعدد من الفنانين</li>
+                        <li>يتميز بجو شعبي مصري أصيل وديكور بسيط يحتفظ بعبق الماضي</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🍽️ الوجبات المميزة</h3>
+                    <ul>
+                        <li>الفول الإسكندراني</li>
+                        <li>الطعمية المحشية</li>
+                        <li>البيض بالبصل أو بالطماطم</li>
+                        <li>البطاطس المحمرة</li>
+                        <li>المشروبات التقليدية مثل الشاي والكركديه</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <h4>العنوان</h4>
+                        <p>17 شارع سعد زغلول<br>محطة الرمل، الإسكندرية</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد العمل</h4>
+                        <p>من 7 صباحًا حتى 12 منتصف الليل</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📅</div>
+                        <h4>التأسيس</h4>
+                        <p>عام 1957</p>
+                    </div>
+                </div>
+
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <span class="badge">🌟 أكل شعبي أصيل</span>
+                <span class="badge">👑 زيارات ملكية</span>
+            </div>
+        </div>
+
+        <!-- أسماك شعبان -->
+        <div class="food-card" id="shaban">
+            <div class="food-header">
+                <div class="icon">🐟</div>
+                <h2>أسماك شعبان</h2>
+            </div>
+            <div class="food-image">
+                <img src="images/food/imgi_128_image.png" 
+                     alt="أسماك شعبان - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/food/shaban-fish.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="food-content">
+                <p>يُعد أسماك شعبان من أقدم مطاعم المأكولات البحرية في الإسكندرية — يقول الموقع الرسمي إنه موجود منذ أكثر من 100 عام.</p>
+
+                <div class="highlight-box">
+                    <h3>🦐 المميزات الخاصة</h3>
+                    <ul>
+                        <li>يتميز بأن الأسماك تُعرض على الزبائن ليختاروها</li>
+                        <li>ثم تُطهى حسب الطلب</li>
+                        <li>يُشتهر بالـ"جُمبري المقلي" والتتبيلة الخاصة به</li>
+                        <li>أسماك طازجة يوميًا من البحر مباشرة</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <h4>العناوين</h4>
+                        <p><strong>الفرع الأول:</strong><br>برج الهنا – طريق الإسكندرية مطروح – كورنيش المكس</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <h4>الفرع الثاني</h4>
+                        <p>6 شارع كريت، المنشية الكبرى<br>قسم المنتزه، الإسكندرية</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">⏳</div>
+                        <h4>التاريخ</h4>
+                        <p>أكثر من 100 عام</p>
+                    </div>
+                </div>
+
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <span class="badge">🦐 مأكولات بحرية طازجة</span>
+                <span class="badge">🏛️ تاريخ عريق</span>
+            </div>
+        </div>
+
+        <!-- فطير القلاع -->
+        <div class="food-card" id="fatir">
+            <div class="food-header">
+                <div class="icon">🥞</div>
+                <h2>فطير القلاع</h2>
+            </div>
+            <div class="food-image">
+                <img src="images/food/imgi_12_AG0ilSyqH7GZRp4-2KgtD2ym0jG0AEa7cxS7utYA_T2wk5MrdRkRSn6hDQVoByaL6dSxKh6W5AaozoMrNfHIDLTiD8eQlTZu9gzLOK2Tfr1H3Ft4TSss-wpLQKJWq3K29gW9ZStg6YM=w408-h544-k-no.jpg" 
+                     alt="فطير القلاع - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/food/feteer-elaalat.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="food-content">
+                <p>فطير القلاع مكان شعبي يقدم الفطير المصري والمشلتت بأجواء ودية. تجربة لا تُنسى لتذوق الفطير الأصيل بحشوات متنوعة.</p>
+
+                <div class="highlight-box">
+                    <h3>🥞 أنواع الفطير المميزة</h3>
+                    <ul>
+                        <li>فطيرة سكر ولبن بالسمن البلدي</li>
+                        <li>فطير مشلتت</li>
+                        <li>فطائر بأنواع الحلو والحادق</li>
+                        <li>فطير بالجبنة والعسل</li>
+                        <li>فطير باللحم والخضروات</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <h4>الفرع الأول</h4>
+                        <p>84 شارع بورسعيد<br>ميدان كامب شيزار<br>الإسكندرية</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📍</div>
+                        <h4>الفرع الثاني</h4>
+                        <p>داخل جرين ستريب مول<br>منطقة سموحة<br>طريق 14 مايو</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🍯</div>
+                        <h4>التخصص</h4>
+                        <p>الفطير المصري الأصيل</p>
+                    </div>
+                </div>
+
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <span class="badge">🧀 فطير مصري أصيل</span>
+                <span class="badge">🍯 حشوات متنوعة</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌊 مدينة الإسكندرية - عروس البحر الأبيض المتوسط</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scroll for quick nav links
+        document.querySelectorAll('.quick-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 180;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    document.querySelectorAll('.quick-nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '-180px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.quick-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.food-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Responsive Navbar Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('open');
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !expanded);
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navLinks.classList.remove('open');
+                        navToggle.classList.remove('open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

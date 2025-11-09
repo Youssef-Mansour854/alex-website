@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل صور الأماكن - الإسكندرية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            color: #0077be;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            color: #00a8e8;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #00a8e8;
+        }
+
+        .place-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .place-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .place-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .place-info {
+            padding: 1rem;
+        }
+
+        .place-info h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .place-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-btn {
+            background: #0077be;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #005a8f;
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .image-preview {
+            position: relative;
+        }
+
+        .image-preview::after {
+            content: '⬇️ اضغط بزر الماوس الأيمن للتحميل';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .image-preview:hover::after {
+            opacity: 1;
+        }
+
+        .status {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .loading {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 تحميل صور الأماكن من الإنترنت</h1>
+        <p style="margin-bottom: 2rem; color: #666;">
+            هذا الملف يساعدك في جلب صور عالية الجودة للأماكن من Unsplash.
+            اضغط على "تحميل" بجانب كل صورة لحفظها في مجلد images.
+        </p>
+
+        <div id="places-container"></div>
+    </div>
+
+    <script>
+        const places = {
+            historical: [
+                { name: 'Qaitbay Citadel Alexandria Egypt', id: 'qaitebay', filename: 'qaitebay.jpg', dir: 'historical' },
+                { name: 'Pompey Pillar Alexandria Egypt', id: 'pompey', filename: 'pompey-pillar.jpg', dir: 'historical' },
+                { name: 'Roman Theater Alexandria Egypt', id: 'theater', filename: 'roman-theater.jpg', dir: 'historical' },
+                { name: 'Montazah Palace Alexandria Egypt', id: 'montazah', filename: 'montazah-palace.jpg', dir: 'historical' },
+                { name: 'Royal Jewelry Museum Alexandria', id: 'jewelry', filename: 'jewelry-museum.jpg', dir: 'historical' },
+                { name: 'Catacombs of Kom El Shoqafa Alexandria', id: 'catacombs', filename: 'kom-el-shokafa.jpg', dir: 'historical' },
+                { name: 'Bahari Alexandria Egypt', id: 'bahari', filename: 'bahari-alexandria.jpg', dir: 'historical' }
+            ],
+            religious: [
+                { name: 'Abu Al Abbas Al Mursi Mosque Alexandria', id: 'aboelabbas', filename: 'abo-elabbas-mosque.jpg', dir: 'religious' },
+                { name: 'Saint Mark Coptic Orthodox Church Alexandria', id: 'stmark', filename: 'st-mark-church.jpg', dir: 'religious' }
+            ],
+            cultural: [
+                { name: 'Bibliotheca Alexandrina Library', id: 'library', filename: 'alexandria-library.jpg', dir: 'cultural' },
+                { name: 'Fine Arts Museum Alexandria Egypt', id: 'artmuseum', filename: 'fine-arts-museum.jpg', dir: 'cultural' },
+                { name: 'Art Creativity Center Alexandria', id: 'artcenter', filename: 'art-center.jpg', dir: 'cultural' },
+                { name: 'Nabi Daniel Street Alexandria Egypt', id: 'danielstreet', filename: 'nabi-danial-street.jpg', dir: 'cultural' }
+            ],
+            food: [
+                { name: 'Mohamed Ahmed Restaurant Alexandria', id: 'mohamedahmed', filename: 'mohamed-ahmed-restaurant.jpg', dir: 'food' },
+                { name: 'Shaban Fish Restaurant Alexandria', id: 'shaban', filename: 'shaban-fish.jpg', dir: 'food' },
+                { name: 'Feteer El Aalat Alexandria', id: 'fatir', filename: 'feteer-elaalat.jpg', dir: 'food' }
+            ],
+            entertainment: [
+                { name: 'Antoniades Gardens Alexandria Egypt', id: 'antoniades', filename: 'antoniades-gardens.jpg', dir: 'entertainment' },
+                { name: 'Montazah Gardens Alexandria Egypt', id: 'montazah-gardens', filename: 'montazah-gardens.jpg', dir: 'entertainment' },
+                { name: 'Fouad Street Alexandria Egypt', id: 'fouad-street', filename: 'fouad-street.jpg', dir: 'entertainment' },
+                { name: 'Ali Hindi Cafe Alexandria', id: 'alihindi', filename: 'ali-hindi-cafe.jpg', dir: 'entertainment' }
+            ]
+        };
+
+        function getUnsplashImageUrl(query, width = 1920, height = 1080) {
+            const encodedQuery = encodeURIComponent(query);
+            // Using Unsplash Source API (free, no API key needed)
+            return `https://source.unsplash.com/${width}x${height}/?${encodedQuery}`;
+        }
+
+        async function downloadImage(imageUrl, filename, dir, query) {
+            try {
+                // Fetch the image
+                const response = await fetch(imageUrl);
+                const blob = await response.blob();
+                
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+                
+                // Show success message
+                alert(`✅ تم تحميل الصورة: ${filename}\n\nالآن احفظها في:\nimages/${dir}/${filename}`);
+            } catch (error) {
+                console.error('Error downloading image:', error);
+                alert('❌ حدث خطأ في التحميل. حاول مرة أخرى أو انقر بزر الماوس الأيمن على الصورة → حفظ الصورة باسم');
+            }
+        }
+
+        function createPlaceCard(place, category) {
+            const imgUrl = getUnsplashImageUrl(place.name);
+            const card = document.createElement('div');
+            card.className = 'place-card';
+            card.innerHTML = `
+                <div class="image-preview">
+                    <img src="${imgUrl}" alt="${place.name}" loading="lazy" 
+                         onerror="this.src='https://via.placeholder.com/300x200/0077be/ffffff?text=${encodeURIComponent(place.name)}'">
+                </div>
+                <div class="place-info">
+                    <h3>${place.name}</h3>
+                    <p><strong>اسم الملف:</strong> ${place.filename}</p>
+                    <p><strong>المسار:</strong> images/${place.dir}/${place.filename}</p>
+                    <button class="download-btn" onclick="downloadImage('${imgUrl}', '${place.filename}', '${place.dir}', '${place.name}')">
+                        ⬇️ تحميل الصورة
+                    </button>
+                    <div class="status">
+                        💡 نصيحة: إذا لم يعمل الزر، انقر بزر الماوس الأيمن على الصورة → حفظ الصورة باسم
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderPlaces() {
+            const container = document.getElementById('places-container');
+            
+            Object.keys(places).forEach(category => {
+                const section = document.createElement('div');
+                section.className = 'section';
+                
+                const categoryNames = {
+                    historical: '🏰 المعالم التاريخية',
+                    religious: '🕌 الأماكن الدينية',
+                    cultural: '🎭 الأماكن الثقافية',
+                    food: '🍽️ المطاعم',
+                    entertainment: '🌳 أماكن الترفيه'
+                };
+
+                section.innerHTML = `<h2>${categoryNames[category]}</h2>`;
+                const grid = document.createElement('div');
+                grid.className = 'place-grid';
+
+                places[category].forEach(place => {
+                    grid.appendChild(createPlaceCard(place, category));
+                });
+
+                section.appendChild(grid);
+                container.appendChild(section);
+            });
+        }
+
+        renderPlaces();
+    </script>
+</body>
+</html>
+

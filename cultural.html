@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأماكن الثقافية - الإسكندرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0077be;
+            --secondary: #00a8e8;
+            --light-blue: #7dd3fc;
+            --white: #ffffff;
+            --light: #f0f9ff;
+            --dark: #1e3a5f;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 900px) {
+            nav .container {
+                flex-wrap: wrap;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            nav ul {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                flex-direction: column;
+                width: 220px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                border-radius: 0 0 12px 12px;
+                z-index: 1001;
+            }
+            nav ul.open {
+                max-height: 500px;
+                padding-bottom: 1rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .page-header {
+            margin-top: 80px;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+        }
+
+        /* Quick Navigation Bar */
+        .quick-nav {
+            position: sticky;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            margin-bottom: 3rem;
+        }
+
+        .quick-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-nav-link {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.2);
+            white-space: nowrap;
+        }
+
+        .quick-nav-link:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
+        }
+
+        .quick-nav-link.active {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .cultural-card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+            transition: all 0.4s ease;
+        }
+
+        .cultural-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 119, 190, 0.3);
+        }
+
+        .cultural-header {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            padding: 3rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cultural-header .icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cultural-header h2 {
+            font-size: 3rem;
+        }
+
+        .cultural-image,
+        .landmark-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landmark-image img,
+        .cultural-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease, filter 0.3s ease;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary));
+        }
+
+        .landmark-image img[loading="lazy"] {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .cultural-card:hover .landmark-image img,
+        .cultural-card:hover .cultural-image img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        .cultural-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .cultural-card:hover .cultural-image::after {
+            transform: translateX(100%);
+        }
+
+        .cultural-content {
+            padding: 3rem;
+        }
+
+        .cultural-content p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ddd6fe, #c7d2fe);
+            padding: 2rem;
+            border-radius: 15px;
+            border-right: 5px solid #8b5cf6;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box ul {
+            list-style-position: inside;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .highlight-box ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: var(--white);
+            border-radius: 25px;
+            font-weight: 700;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                padding: 4rem 1.5rem;
+            }
+            
+            .landmark-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-header {
+                padding: 4rem 1.5rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+
+            .quick-nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .quick-nav-links {
+                gap: 0.8rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .cultural-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .landmark-image {
+                height: 350px;
+            }
+
+            .cultural-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-header {
+                margin-top: 70px;
+                padding: 3rem 1rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            .quick-nav {
+                top: 70px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .quick-nav-title {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .quick-nav-links {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .quick-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 2.5rem 1rem;
+            }
+
+            .cultural-header {
+                padding: 2rem;
+            }
+
+            .cultural-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .cultural-header .icon {
+                font-size: 4rem;
+            }
+
+            .landmark-image {
+                height: 300px;
+            }
+
+            .cultural-content {
+                padding: 1.5rem;
+            }
+
+            .cultural-content p {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .container {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .page-header {
+                padding: 2.5rem 0.8rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .quick-nav {
+                padding: 0.8rem;
+            }
+
+            .quick-nav-title {
+                font-size: 0.95rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: 2rem 0.8rem;
+            }
+
+            .cultural-header {
+                padding: 1.5rem;
+            }
+
+            .cultural-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .cultural-header .icon {
+                font-size: 3rem;
+            }
+
+            .landmark-image {
+                height: 250px;
+            }
+
+            .cultural-content {
+                padding: 1.2rem;
+            }
+
+            .cultural-content p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .highlight-box {
+                padding: 1.5rem;
+            }
+
+            .highlight-box h3 {
+                font-size: 1.3rem;
+            }
+
+            .highlight-box ul {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .badge {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+                margin: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">🌊 الإسكندرية</div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="navLinks">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">نبذة</a></li>
+                <li><a href="historical.html">تاريخية</a></li>
+                <li><a href="religious.html">دينية</a></li>
+                <li><a href="cultural.html" class="active">ثقافية</a></li>
+                <li><a href="entertainment.html">ترفيه</a></li>
+                <li><a href="food.html">مطاعم</a></li>
+                <li><a href="gallery.html">معرض</a></li>
+                <li><a href="contact.html">موقعنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>🎭 الأماكن الثقافية</h1>
+        <p>مراكز ثقافية وفنية تعكس عراقة وحضارة الإسكندرية</p>
+    </div>
+
+    <!-- Quick Navigation Bar -->
+    <div class="quick-nav">
+        <div class="quick-nav-container">
+            <div class="quick-nav-title">📍 التنقل السريع</div>
+            <div class="quick-nav-links">
+                <a href="#library" class="quick-nav-link">📚 مكتبة الإسكندرية</a>
+                <a href="#artmuseum" class="quick-nav-link">🎨 متحف الفنون الجميلة</a>
+                <a href="#artcenter" class="quick-nav-link">🎭 مركز الإبداع الفني</a>
+                <a href="#danielstreet" class="quick-nav-link">🕌 شارع النبي دانيال</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- مكتبة الإسكندرية -->
+        <div class="cultural-card" id="library">
+            <div class="cultural-header">
+                <div class="icon">📚</div>
+                <h2>مكتبة الإسكندرية</h2>
+            </div>
+            <div class="landmark-image">
+                <img src="images/cultural/imgi_121_1310471781_16449731156471n.png" alt="مكتبة الإسكندرية - صرح ثقافي عالمي" loading="lazy">
+            </div>
+            <div class="cultural-content">
+                <p>تقع مكتبة الإسكندرية في منطقة الشاطبي بمدينة الإسكندرية، على كورنيش البحر المتوسط مباشرة، بين جامعة الإسكندرية وشاطئ البحر، وقريبة جدًا من حي الأزاريطة ومتحف الإسكندرية القومي.</p>
+                
+                <p>صرح ثقافي عالمي يرمز لإحياء التراث العلمي القديم. تحتوي على ملايين الكتب وقاعات عرض ومتاحف، وتُعد من أهم المعالم الثقافية في العالم العربي.</p>
+
+                <div class="highlight-box">
+                    <h3>📖 المكتبات المتخصصة</h3>
+                    <p>المكتبات هي قلب المكتبة الذي تقدم من خلاله مساحة لطالبي المعرفة. بالإضافة إلى المكتبة الرئيسية، تحتوي مكتبة الإسكندرية على ست مكتبات متخصصة:</p>
+                    <ul>
+                        <li>مكتبة الفنون والوسائط المتعددة</li>
+                        <li>مكتبة طه حسين لضعاف البصر</li>
+                        <li>مكتبة الطفل</li>
+                        <li>مكتبة النشء</li>
+                        <li>قسم التبادل والأرشيف</li>
+                        <li>قسم الكتب النادرة</li>
+                        <li>المكتبة الفرنكوفونية (إهداء من مكتبة فرنسا الوطنية)</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد العمل</h4>
+                        <p>الأحد - الخميس<br>9:30 ص - 5:00 م</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>أسعار التذاكر</h4>
+                        <p>مصريون: 10 ج<br>طلاب: 5 ج<br>أجانب: 150 ج</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🏛️</div>
+                        <h4>المتاحف الداخلية</h4>
+                        <p>متحف الآثار: 20 ج<br>متحف المخطوطات: 20 ج</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">♿</div>
+                        <h4>ذوو الاحتياجات</h4>
+                        <p>دخول مجاني</p>
+                    </div>
+                </div>
+
+                <span class="badge">📚 صرح ثقافي عالمي</span>
+                <span class="badge">🌍 وجهة سياحية</span>
+            </div>
+        </div>
+
+        <!-- متحف الفنون الجميلة -->
+        <div class="cultural-card" id="artmuseum">
+            <div class="cultural-header">
+                <div class="icon">🎨</div>
+                <h2>متحف الفنون الجميلة</h2>
+            </div>
+            <div class="landmark-image">
+                <img src="images/cultural/imgi_139_2025-638886960593860678-386.png" alt="متحف الفنون الجميلة - الإسكندرية" loading="lazy">
+            </div>
+            <div class="cultural-content">
+                <p>يقع المتحف في منطقة محرم بك بمدينة الإسكندرية، تحديدًا في 6 شارع منشة، محرم بك، الإسكندرية.</p>
+
+                <div class="highlight-box">
+                    <h3>🏆 أول متحف للفنون الجميلة</h3>
+                    <p>يُعتبر أول متحف بُني خصيصًا لعرض الفنون الجميلة في مصر والشرق الأوسط. تأسس بناءً على هدية من التاجر الأجنبي إدوارد فريد هايم التي ضمّت حوالي 210 لوحة فنية، وكان شرطه أن تُعرض في مكان ثابت.</p>
+                </div>
+
+                <p>تم افتتاحه رسميًا عام 1954 ميلاديًا بعد تصميم المهندس المعماري فؤاد عبد المجيد لعام 1949.</p>
+
+                <p>يضم أعمالاً فنية متنوعة تشمل اللوحات الزيتية، الطباعة، الحفر، النحت، لمبدعين مصريين وأجانب. حصل على جائزة من اليونسكو تقديرًا لتميّزه في خدماته الثقافية والمعارض.</p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الدخول</h4>
+                        <p>السبت - الخميس<br>9:00 ص - 5:00 م<br>(مغلق الجمعة)</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>أسعار التذاكر</h4>
+                        <p>بالغين: 40 ج<br>طلاب وكبار السن: 20 ج<br>أطفال أقل من 12: مجانًا</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🖼️</div>
+                        <h4>المعروضات</h4>
+                        <p>لوحات، منحوتات، وأعمال فنية نادرة</p>
+                    </div>
+                </div>
+
+                <span class="badge">🎨 تحف فنية نادرة</span>
+                <span class="badge">🏅 جائزة اليونسكو</span>
+            </div>
+        </div>
+
+        <!-- مركز الإبداع الفني -->
+        <div class="cultural-card" id="artcenter">
+            <div class="cultural-header">
+                <div class="icon">🎭</div>
+                <h2>مركز الإبداع الفني</h2>
+            </div>
+            <div class="landmark-image">
+                <img src="images/cultural/imgi_80_12434446271455366294.png" alt="مركز الإبداع الفني - الإسكندرية" loading="lazy">
+            </div>
+            <div class="cultural-content">
+                <p>يقع في طريق الحرية (شارع فؤاد سابقًا) – بجوار قسم شرطة العطارين، نقطة شريف سابقًا، الإسكندرية. يقع في شارع فؤاد، أحد الشوارع القديمة في الإسكندرية.</p>
+
+                <div class="highlight-box">
+                    <h3>🎪 مركز ثقافي وفني شامل</h3>
+                    <p>مركز ثقافي وفني تابع لصندوق التنمية الثقافية، ويقدّم أنشطة متعددة في:</p>
+                    <ul>
+                        <li>المسرح والموسيقى</li>
+                        <li>الفنون التشكيلية</li>
+                        <li>الورش التعليمية والندوات</li>
+                        <li>ورش للأطفال والشباب في الرسم والنحت</li>
+                        <li>الأشغال الفنية والإيقاع الشرقي</li>
+                    </ul>
+                </div>
+
+                <p>يضم مسرحاً يتسع لحوالي 200 شخص، قاعات عرض فنية، مكتبة، قاعة سينما، مرسم، وغيرها من مرافق الإبداع.</p>
+
+                <span class="badge">🎨 ورش إبداعية</span>
+                <span class="badge">🎭 عروض مسرحية</span>
+                <span class="badge">👨‍🎨 تنمية المواهب</span>
+            </div>
+        </div>
+
+        <!-- شارع النبي دانيال -->
+        <div class="cultural-card" id="danielstreet">
+            <div class="cultural-header">
+                <div class="icon">🕌</div>
+                <h2>شارع النبي دانيال</h2>
+            </div>
+            <div class="landmark-image">
+                <img src="images/cultural/WhatsApp Image 2025-11-08 at 10.38.41 PM (2).jpeg" alt="شارع النبي دانيال - الإسكندرية" loading="lazy">
+            </div>
+            <div class="cultural-content">
+                <p>يمتد الشارع من محطة الرمل إلى محطة مصر، ويتقاطع مع شارع فؤاد. يُعد من الشوارع التاريخية العريقة في الإسكندرية.</p>
+
+                <div class="highlight-box">
+                    <h3>📜 تاريخ عريق يعود للإسكندر الأكبر</h3>
+                    <p>يُعتقد أن تاريخه يعود إلى العام 331 قبل الميلاد، حينما خطط الإسكندر الأكبر المدينة فضمّ شارعًا طوليًا كان من بين شوارعها الكبرى، وهذا الشارع هو ما أصبح يُعرف اليوم بشارع النبي دانيال.</p>
+                </div>
+
+                <p>شارع النبي دانيال ليس شارعًا عاديًا، بل هو ممشى تراثي ومجمع للأديان الثلاثة:</p>
+
+                <div class="highlight-box">
+                    <h3>🕌⛪🕍 ملتقى الأديان</h3>
+                    <ul>
+                        <li><strong>مسجد النبي دانيال:</strong> في بداية الشارع، بُني في القرن الثامن عشر</li>
+                        <li><strong>معبد إلياهو اليهودي:</strong> في وسط الشارع، أحد أكبر المعابد اليهودية في الإسكندرية بعد ترميمه</li>
+                        <li><strong>الكنيسة المرقسية:</strong> من أقدم الكنائس في أفريقيا، محطة مهمة في تاريخ المسيحية</li>
+                    </ul>
+                </div>
+
+                <p>الشارع معروف كذلك بأسواق الكتب، خاصة الكتب المستعملة والنادرة، وبالمحال التقليدية التي تزيّن جانبيه.</p>
+
+                <span class="badge">📚 شارع الكتب</span>
+                <span class="badge">🕌 ملتقى الأديان</span>
+                <span class="badge">🏛️ تاريخ 2300 عام</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌊 مدينة الإسكندرية - عروس البحر الأبيض المتوسط</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scroll for quick nav links
+        document.querySelectorAll('.quick-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 180;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    document.querySelectorAll('.quick-nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '-180px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.quick-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.cultural-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Responsive Navbar Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('open');
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !expanded);
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navLinks.classList.remove('open');
+                        navToggle.classList.remove('open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

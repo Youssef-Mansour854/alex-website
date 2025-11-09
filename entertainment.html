@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أماكن الترفيه - الإسكندرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0077be;
+            --secondary: #00a8e8;
+            --light-blue: #7dd3fc;
+            --white: #ffffff;
+            --light: #f0f9ff;
+            --dark: #1e3a5f;
+            --gold: #fbbf24;
+            --green: #10b981;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 28px;
+            height: 4px;
+            margin: 4px 0;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 900px) {
+            nav .container {
+                flex-wrap: wrap;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            nav ul {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                flex-direction: column;
+                width: 220px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                border-radius: 0 0 12px 12px;
+                z-index: 1001;
+            }
+            nav ul.open {
+                max-height: 500px;
+                padding-bottom: 1rem;
+            }
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .page-header {
+            margin-top: 80px;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+        }
+
+        /* Quick Navigation Bar */
+        .quick-nav {
+            position: sticky;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            margin-bottom: 3rem;
+        }
+
+        .quick-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quick-nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .quick-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quick-nav-link {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+            white-space: nowrap;
+        }
+
+        .quick-nav-link:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .quick-nav-link.active {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .place-card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+            transition: all 0.4s ease;
+        }
+
+        .place-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(16, 185, 129, 0.3);
+        }
+
+        .place-header {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            padding: 3rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .place-header .icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .place-header h2 {
+            font-size: 3rem;
+        }
+
+        .place-image,
+        .landmark-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #34d399, #10b981);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .place-image img,
+        .landmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease, filter 0.3s ease;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+
+        .place-image img[loading="lazy"] {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .place-card:hover .place-image img,
+        .place-card:hover .landmark-image img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        .place-image::before {
+            content: '🌳';
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .place-content {
+            padding: 3rem;
+        }
+
+        .place-content p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            padding: 2rem;
+            border-radius: 15px;
+            border-right: 5px solid var(--green);
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--dark);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box p, .highlight-box ul {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .highlight-box ul {
+            list-style-position: inside;
+        }
+
+        .highlight-box ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 15px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.3rem;
+            color: var(--green);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: var(--white);
+            border-radius: 25px;
+            font-weight: 700;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                padding: 4rem 1.5rem;
+            }
+            
+            .landmark-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-header {
+                padding: 4rem 1.5rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.8rem;
+            }
+
+            .quick-nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .quick-nav-links {
+                gap: 0.8rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .place-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .landmark-image {
+                height: 350px;
+            }
+
+            .place-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-header {
+                margin-top: 70px;
+                padding: 3rem 1rem 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-header p {
+                font-size: 1.1rem;
+            }
+
+            .quick-nav {
+                top: 70px;
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .quick-nav-title {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .quick-nav-links {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .quick-nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .content {
+                padding: 2.5rem 1rem;
+            }
+
+            .place-header {
+                padding: 2rem;
+            }
+
+            .place-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .place-header .icon {
+                font-size: 4rem;
+            }
+
+            .landmark-image {
+                height: 300px;
+            }
+
+            .place-content {
+                padding: 1.5rem;
+            }
+
+            .place-content p {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .container {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .page-header {
+                padding: 2.5rem 0.8rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .quick-nav {
+                padding: 0.8rem;
+            }
+
+            .quick-nav-title {
+                font-size: 0.95rem;
+            }
+
+            .quick-nav-link {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .content {
+                padding: 2rem 0.8rem;
+            }
+
+            .place-header {
+                padding: 1.5rem;
+            }
+
+            .place-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .place-header .icon {
+                font-size: 3rem;
+            }
+
+            .landmark-image {
+                height: 250px;
+            }
+
+            .place-content {
+                padding: 1.2rem;
+            }
+
+            .place-content p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+            }
+
+            .highlight-box {
+                padding: 1.5rem;
+            }
+
+            .highlight-box h3 {
+                font-size: 1.3rem;
+            }
+
+            .highlight-box ul {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .badge {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.95rem;
+                margin: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">🌊 الإسكندرية</div>
+            <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="navLinks">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">نبذة</a></li>
+                <li><a href="historical.html">تاريخية</a></li>
+                <li><a href="religious.html">دينية</a></li>
+                <li><a href="cultural.html">ثقافية</a></li>
+                <li><a href="entertainment.html" class="active">ترفيه</a></li>
+                <li><a href="food.html">مطاعم</a></li>
+                <li><a href="gallery.html">معرض</a></li>
+                <li><a href="contact.html">موقعنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>🌳 أماكن الترفيه والحدائق</h1>
+        <p>استمتع بأجمل الحدائق والمتنزهات في الإسكندرية</p>
+    </div>
+
+    <!-- Quick Navigation Bar -->
+    <div class="quick-nav">
+        <div class="quick-nav-container">
+            <div class="quick-nav-title">📍 التنقل السريع</div>
+            <div class="quick-nav-links">
+                <a href="#antoniades" class="quick-nav-link">🌺 حدائق أنطونيادس</a>
+                <a href="#montazah-gardens" class="quick-nav-link">🌴 حدائق المنتزه</a>
+                <a href="#fouad-street" class="quick-nav-link">🏛️ شارع فؤاد</a>
+                <a href="#alihindi" class="quick-nav-link">☕ قهوة علي هندي</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- حدائق أنطونيادس -->
+        <div class="place-card" id="antoniades">
+            <div class="place-header">
+                <div class="icon">🌺</div>
+                <h2>حدائق أنطونيادس</h2>
+            </div>
+            <div class="place-image">
+                <img src="images/entertainment/imgi_115_391314-اعمال-التطوير-مستمرة-بالحديقة.png" 
+                     alt="حدائق أنطونيادس - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/entertainment/antoniades-gardens.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="place-content">
+                <p>تقع في حي سموحة – ميدان سموحة، منطقة سيدي جابر شرقي مدينة الإسكندرية. تشير بعض المصادر إلى أنها عند المدخل الجنوبي للإسكندرية بالقرب من قناة المحمودية.</p>
+
+                <div class="highlight-box">
+                    <h3>🏛️ تاريخ عريق منذ العصر البطلمي</h3>
+                    <p>الأرض بدأت تُستخدم كموقع حدائق قديم منذ العصر البطلمي، وكانت ضمن ضاحية تُعرف بـ إيلوزيس أو «جنّات النعيم».</p>
+                    <p>في القرن التاسع عشر، اشترى الموقع جون أنطونيادس (Greek Baron John Antoniadis) ملكيته من عائلة محمد علي باشا. بعد وفاة جون أنطونيادس في 1895، ورث الابن أنطونيس أنطونيادس الحديقة، ثم تبرّع بها لبلدية الإسكندرية عام 1918.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🎨 تصميم مستوحى من قصر فرساي</h3>
+                    <p>جذورها تعود للعهد البطلمي، أما التصميم الحديث – بمعنى إعادة ترتيب وتجميل على الطراز الأوروبي – تم في عهد الخديوي إسماعيل (حوالي سنة 1860) حيث كلف الفنان الفرنسي بول ريشار بتصميمها كنسخة مصغّرة لقصر فرساي بفرنسا.</p>
+                </div>
+
+                <p>القصر الموجود داخل الحديقة يُعرف بـ قصر أنطونيادس، تم تشييده في القرن التاسع عشر، بمساحة تقريبية 2,859 م². المساحة الإجمالية للحدائق تصل إلى ما يقارب 50 فدان أو أكثر.</p>
+
+                <div class="highlight-box">
+                    <h3>🌸 ما تحتويه الحديقة</h3>
+                    <ul>
+                        <li>تماثيل رخامية لشخصيات تاريخية وأسطورية – من بينها مستكشفين</li>
+                        <li>نباتات وأشجار نادرة</li>
+                        <li>تصميمات حدائق مستوحاة من الطراز الأوروبي</li>
+                        <li>ممرات للمشي، مساحات للجلوس والاسترخاء</li>
+                        <li>الحديقة تُعد معلماً تراثياً – مُدرجة ضمن آثار المحافظة</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الدخول</h4>
+                        <p>يوميًا من 8:00 ص - 12:00 منتصف الليل</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>10 جنيهات للفرد<br>15 جنيهًا في العطلات</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🚗</div>
+                        <h4>دخول السيارات</h4>
+                        <p>20 جنيهًا</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📏</div>
+                        <h4>المساحة</h4>
+                        <p>حوالي 50 فدان</p>
+                    </div>
+                </div>
+
+                <span class="badge">🏛️ حديقة تاريخية</span>
+                <span class="badge">🎨 نسخة من فرساي</span>
+            </div>
+        </div>
+
+        <!-- حدائق المنتزه -->
+        <div class="place-card" id="montazah-gardens">
+            <div class="place-header">
+                <div class="icon">🌴</div>
+                <h2>حدائق المنتزه</h2>
+            </div>
+            <div class="place-image">
+                <img src="images/entertainment/imgi_145_440435115_460873466603789_6726912427067741915_n.png" 
+                     alt="حدائق المنتزه - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/entertainment/montazah-gardens.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="place-content">
+                <p>تقع الحدائق في حي المنتزه بشرق مدينة الإسكندرية بمحافظة الإسكندرية، مصر. تمتد الحديقة على مساحة تُقدّر بـ حوالي 370 فداناً تقريباً. تطل على البحر الأبيض المتوسط ومنطقة خليج يُعرف بـ خليج المنتزه.</p>
+
+                <div class="highlight-box">
+                    <h3>👑 مصيف العائلة المالكة</h3>
+                    <p><strong>البداية:</strong> في عام 1892 تقريباً، أصدر الخديو عباس حلمي الثاني قراراً بإنشاء هذه الحديقة الكبرى على ربوتين مرتفعين بمحاذاة شاطئ البحر، ليكون مصيفاً ومتنفساً للعائلة المالكة.</p>
+                    <p>المهندس الذي أوكل له بناء القصر هو المهندس اليوناني ديمتري فابريشيوس، والذي صمم القصر الأول على الطراز الفلورنسي/الأوروبي.</p>
+                    <p>لاحقاً، في عهد الملك فؤاد الأول أُضيف قصر الحُرمَلِك (قصر الملكة أو العائلة الملكية) عام 1925-1927 تقريباً.</p>
+                </div>
+
+                <p>الحديقة كانت تمثل مصيفاً خاصاً لأسرة محمد علي المالكة حتى ثورة 23 يوليو 1952، ثم تحولت إلى مكان عام للزوار.</p>
+
+                <div class="highlight-box">
+                    <h3>🏰 محتويات الحديقة</h3>
+                    <p>الحديقة ليست مجرد مساحة خضراء، بل تحتوي على:</p>
+                    <ul>
+                        <li>قصور ملكية (قصر السلاملك، قصر الحُرمَلك)</li>
+                        <li>مبانٍ أثرية مثل برج الساعة، كشك الشاي، طاحونة الهواء</li>
+                        <li>مساحات من الأشجار والنباتات النادرة</li>
+                        <li>شواطئ خاصة وعامة</li>
+                        <li>ممرات للتنزه وإطلالات بحرية</li>
+                        <li>مساحات لعب للأطفال</li>
+                    </ul>
+                </div>
+
+                <p>الحديقة تُعد متنفساً طبيعياً كبيراً في قلب المدينة، توفر أجواء هادئة مقارنة بأماكن أخرى.</p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="icon">🕐</div>
+                        <h4>مواعيد الزيارة</h4>
+                        <p>يوميًا من 8 ص - 10 م</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🎫</div>
+                        <h4>سعر التذكرة</h4>
+                        <p>50 جنيه للفرد</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">📏</div>
+                        <h4>المساحة</h4>
+                        <p>370 فدان</p>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon">🌊</div>
+                        <h4>المميزات</h4>
+                        <p>إطلالة بحرية ساحرة</p>
+                    </div>
+                </div>
+
+                <span class="badge">👑 حدائق ملكية</span>
+                <span class="badge">🌊 إطلالة بحرية</span>
+            </div>
+        </div>
+
+        <!-- شارع فؤاد -->
+        <div class="place-card" id="fouad-street">
+            <div class="place-header">
+                <div class="icon">🏛️</div>
+                <h2>شارع فؤاد</h2>
+            </div>
+            <div class="place-image">
+                <img src="images/entertainment/imgi_131_egyptiangeographic.com_1557528337_1.png" 
+                     alt="شارع فؤاد - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/entertainment/fouad-street.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="place-content">
+                <p>يقع في وسط مدينة الإسكندرية، ويمتد من منطقة محطة الرمل حتى منطقة الأزاريطة، ويمر بعدة أماكن تاريخية مثل ميدان المنشية، وميدان سعد زغلول، وشارع النبي دانيال.</p>
+
+                <div class="highlight-box">
+                    <h3>🏛️ من أقدم شوارع العالم</h3>
+                    <p>يرجع تاريخ شارع فؤاد إلى العصر البطلمي، أي أكثر من 2300 سنة، مما يجعله من أقدم الشوارع في العالم التي ما زالت مستخدمة حتى اليوم.</p>
+                    <p>تم تطويره وتوسيعه عدة مرات خلال فترات الحكم المختلفة: البطلمي، ثم الروماني، فالعثماني، ثم في عهد محمد علي وأسرته.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🎭 طراز معماري فريد</h3>
+                    <p>الشارع يجمع بين الطراز الأوروبي الكلاسيكي والعمارة المصرية القديمة الحديثة، ويضم:</p>
+                    <ul>
+                        <li>المسرح الروماني</li>
+                        <li>دار الأوبرا القديمة (مسرح سيد درويش)</li>
+                        <li>عدد من القصور والفنادق القديمة التي تعود للقرن التاسع عشر</li>
+                        <li>المقاهي والمطاعم القديمة التي كانت ملتقى الأدباء والفنانين</li>
+                    </ul>
+                </div>
+
+                <p>البداية كانت في العصر البطلمي حين أمر الإسكندر الأكبر ومهندسه دينوقراطيس بتخطيط مدينة الإسكندرية على النمط الإغريقي، وكان شارع فؤاد جزءًا من هذا التخطيط كأحد الشوارع الرئيسية.</p>
+
+                <p>في العهد الحديث، تم تجديده وتطويره في عصر الملك فؤاد الأول (ومن هنا جاء اسمه الحالي).</p>
+
+                <span class="badge">🎭 شارع عريق</span>
+                <span class="badge">🏛️ 2300 سنة</span>
+                <span class="badge">📚 ملتقى الأدباء</span>
+            </div>
+        </div>
+
+        <!-- قهوة علي هندي -->
+        <div class="place-card" id="alihindi">
+            <div class="place-header">
+                <div class="icon">☕</div>
+                <h2>قهوة علي هندي</h2>
+            </div>
+            <div class="place-image">
+                <img src="images/entertainment/imgi_86_hq720.png" 
+                     alt="قهوة علي هندي - الإسكندرية" 
+                     onerror="this.onerror=null; this.src='images/entertainment/ali-hindi-cafe.jpg'"
+                     loading="lazy">
+            </div>
+            <div class="place-content">
+                <p>تقع في منطقة المنشية – محافظة الإسكندرية، مصر. الوصول إليها ليس مباشرًا من شارع رئيسي، بل عن طريق ممرات ضيقة تشبه "سراديب أو مغارات" بين مباني قديمة. المباني المحيطة تحمل طرازًا معمارياً منفرداً، ما يجعل المقهى "مخفيًا" قليلاً بين العقارات.</p>
+
+                <div class="highlight-box">
+                    <h3>🏛️ تاريخ يعود لعام 1882</h3>
+                    <p>تم إنشاء المباني التي تضم المقهى عام 1882م، من الطراز الإيطالي، تحت اسم "وكالة أمفراتو" (Amférato) التي تعني "الكهف" بالإيطالية.</p>
+                    <p>المقهى استخدم كمخبأ خلال الحروب العالمية الأولى والثانية نظراً لموقعه المنعزل بين الممرات والبنايات.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>👤 من بناه ومن يملكه</h3>
+                    <p>ملك المباني في البداية سيدة يونانية تُدعى ماريا خريستو بانيس بالاشتراك مع السيد علي الهندي، الذي أصبح لاحقًا المالك الوحيد، ومن ثم سُمّي المقهى باسمه.</p>
+                </div>
+
+                <p>هي مقهى تاريخي أثري، ليس مجرد مكان للقهوة بل "ملتقى ثقافي" ومكان يحمل طابعًا تراثيًا.</p>
+
+                <p>داخليًا تتميز بتفاصيل معمارية قديمة (السقف، الممرات الزجاجية "الشخشيخة الزجاجية" التي تربط العقارات) والطراز الإيطالي.</p>
+
+                <p>اشتهرت بأنها من أبرز الأماكن التي يرتادها عدد من الفنانين والمثقفين، وكانت وما زالت محط اهتمام للسياح والمصورين.</p>
+
+                <span class="badge">☕ مقهى تاريخي</span>
+                <span class="badge">🎨 ملتقى المثقفين</span>
+                <span class="badge">🏛️ طراز إيطالي</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌊 مدينة الإسكندرية - عروس البحر الأبيض المتوسط</p>
+        <p>© 2025 جميع الحقوق محفوظة</p>
+    </footer>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script>
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scroll for quick nav links
+        document.querySelectorAll('.quick-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 180;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    document.querySelectorAll('.quick-nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '-180px 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    document.querySelectorAll('.quick-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.place-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Responsive Navbar Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('open');
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !expanded);
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if(window.innerWidth <= 900) {
+                        navLinks.classList.remove('open');
+                        navToggle.classList.remove('open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
